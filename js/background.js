@@ -9,6 +9,7 @@ var builders = null;
 var online = false;
 var buildbot = {};
 var lastXHR = null;
+var _auth = null;
 var _token = null;
 var _fetch = {};
 var _sounds = {
@@ -232,6 +233,7 @@ function _checkStatus() {
 function scheduleUpdate(immediate) {
     if(_token) clearTimeout(_token);
     baseUrl = localStorage['baseUrl'];
+    _auth = localStorage['auth'];
     builders = localStorage['builders'].split(',');
     if(baseUrl) {
         if(immediate) {
@@ -251,6 +253,9 @@ function scheduleUpdate(immediate) {
 function _get(url, callback) {
     var xhr = new XMLHttpRequest();
     lastXHR = xhr;
+    if(_auth != "null") {
+      xhr.setRequestHeader('Authorization', _auth);
+    }
     //xhr.onerror = _handleError;
     xhr.onreadystatechange = function(state) {
         if(xhr.readyState == 4) {
