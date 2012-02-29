@@ -253,16 +253,19 @@ function scheduleUpdate(immediate) {
 function _get(url, callback) {
     var xhr = new XMLHttpRequest();
     lastXHR = xhr;
-    if(_auth != "null") {
-      xhr.setRequestHeader('Authorization', _auth);
-    }
     //xhr.onerror = _handleError;
     xhr.onreadystatechange = function(state) {
         if(xhr.readyState == 4) {
-            callback(xhr);
+                      callback(xhr);
         }
     };
+
     xhr.open("GET", url, true);
+
+    if(_auth != "null") {
+      xhr.setRequestHeader('Authorization', _auth);
+    }
+
     xhr.send({});
 }
 
